@@ -14,23 +14,25 @@
   };
 
   #outputs = { nixpkgs, home-manager, helix, rnix-lsp, ... }:
-  outputs = { nixpkgs, home-manager, ... }:
-    let
-      system = "x86_64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
-      #rnix = rnix-lsp.packages.${system};
-    in {
-      formatter.${system} = pkgs.alejandra;
-      homeConfigurations."guoqiang" =
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          # Specify your home configuration modules here, for example,
-          # the path to your home.nix.
-          modules = [ ./home.nix ];
+  outputs = {
+    nixpkgs,
+    home-manager,
+    ...
+  }: let
+    system = "x86_64-darwin";
+    pkgs = nixpkgs.legacyPackages.${system};
+    #rnix = rnix-lsp.packages.${system};
+  in {
+    formatter.${system} = pkgs.alejandra;
+    homeConfigurations."guoqiang" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      # Specify your home configuration modules here, for example,
+      # the path to your home.nix.
+      modules = [./home];
 
-          # Optionally use extraSpecialArgs
-          # to pass through arguments to home.nix
-          #extraSpecialArgs = {inherit rnix;};
-        };
+      # Optionally use extraSpecialArgs
+      # to pass through arguments to home.nix
+      #extraSpecialArgs = {inherit rnix;};
     };
+  };
 }
