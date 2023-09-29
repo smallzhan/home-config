@@ -8,16 +8,18 @@
       cheat
       graphviz
       sdcv
-      ctags
+      universal-ctags
       alejandra
       nixfmt
       rnix-lsp
+      sbcl
     ];
 
     home.file = {
        ".aria2/aria2_rpc.conf".source = dotfiles/.aria2_rpc.conf;
        ".ctags".source = dotfiles/.ctags;
        ".vimrc".source = dotfiles/.vimrc;
+       ".sbclrc".source = dotfiles/.sbclrc;
     };
 
     home.sessionVariables = {
