@@ -23,7 +23,7 @@
     };
 
     home.sessionVariables = {
-      EDITOR = "emacsclient -c";
+      EDITOR = "emacsclient";
       MANPAGER = "less -R --use-color -Dd+r -Du+b +Gg";
       GROFF_NO_SGR = 1; # for konsole and gnome-terminal
     };

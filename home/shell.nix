@@ -7,23 +7,23 @@
       autocd = true;
       shellAliases = {
         cat = "bat -p --wrap character";
-        #ls = "eza --group-directories-first --color=auto";
-        #la = "ls -laFh";
+
         top = "btm";
         diff = "delta";
         help = "cheat";
-        h = "history";
-        c = "clear";
-        rscp = "rsync -v -P -e ssh";
+
         aria2rpc = "aria2c --conf-path=$HOME/.aria2/aria2_rpc.conf";
-        ncu = "nix flake update";
+
+        #ncu = "nix flake update";
         nd = "nix store gc --debug";
+        nd7 = "nix profile wipe-history --older-than 7d";
         nu = "nix flake update";
         ni = "nix profile install";
         nr = "nix profile remove";
         hs = "home-manager switch";
       };
       antidote.enable = true;
+      antidote.useFriendlyNames = true;
       antidote.plugins = [
         "zsh-users/zsh-completions"
         "hlissner/zsh-autopair"
