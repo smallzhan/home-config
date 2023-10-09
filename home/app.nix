@@ -4,7 +4,7 @@
       lftp
       aria2
       gtkwave
-      emacs29
+      # emacs29
       cheat
       graphviz
       sdcv
@@ -13,6 +13,9 @@
       nixfmt
       rnix-lsp
       sbcl
+      gnuplot
+      octave
+      python311
     ];
 
     home.file = {

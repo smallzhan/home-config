@@ -173,3 +173,5 @@ fi
 [ -f $HOME/.zsh/percol.zsh ] && source $HOME/.zsh/percol.local
 [ -f $HOME/.iterm2_shell_integration.zsh ] && source $HOME/.iterm2_shell_integration.zsh
 
+ (( $+commands[rtx] )) && eval "$(rtx activate zsh)" 
+

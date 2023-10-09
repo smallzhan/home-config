@@ -15,12 +15,16 @@
         aria2rpc = "aria2c --conf-path=$HOME/.aria2/aria2_rpc.conf";
 
         #ncu = "nix flake update";
-        nd = "nix store gc --debug";
-        nd7 = "nix profile wipe-history --older-than 7d";
-        nu = "nix flake update";
-        ni = "nix profile install";
-        nr = "nix profile remove";
-        hs = "home-manager switch";
+        nixd = "nix store gc --debug";
+        nix7 = "nix profile wipe-history --older-than 7d";
+        nixu = "nix flake update";
+        nixi = "nix profile install";
+        nixr = "nix profile remove";
+        hms = "home-manager switch";
+        hmg = "home-manager";
+        hmd7 = "home-manager expire-generations -7 days";
+        hml = "home-manager generations";
+        hmr = "home-manager remove-generations";
       };
       antidote.enable = true;
       antidote.useFriendlyNames = true;
@@ -35,7 +39,7 @@
         #"ohmyzsh/ohmyzsh path:plugins/colored-man-pages"
         "zsh-users/zsh-autosuggestions"
         "zsh-users/zsh-history-substring-search"
-        "zimfw/asdf"
+        # "zimfw/asdf"
       ];
       initExtra = ''
         [ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
@@ -58,13 +62,20 @@
       ];
     };
 
-    starship = {
+    starship = { enable = true; };
+
+    bash = {
       enable = true;
-      settings = {
-        shell.disabled = false;
-        time.disabled = false;
-        right_format = "$shell$time";
+      initExtra = "[ -f $HOME/.env.local ] && source $HOME/.env.local";
+      shellOptions = [ "histappend" "extglob" "checkwinsize" ];
+      shellAliases = {
+        ls = "eza --icons ";
+        cat = "bat -p --wrap character";
+        top = "btm";
+        diff = "delta";
+        help = "cheat";
       };
+      enableCompletion = false;
     };
 
     zoxide.enable = true;
@@ -83,6 +94,7 @@
       rev = "master";
       sha256 = "LkoRWds7PHsteJCDvsBpZ80zvlLtFenLU3CPAxdEHYA=";
     } + "/.tmux.conf";
-    ".tmux.conf.local".source = dotfiles/.tmux.conf.local;
+    ".tmux.conf.local".source = dotfiles/.temux.conf.local;
+    ".config/starship.toml".source = dotfiles/.starship.toml;
   };
 }
