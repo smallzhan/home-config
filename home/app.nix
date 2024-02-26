@@ -14,10 +14,13 @@
       rnix-lsp
       sbcl
       gnuplot
-      octave
-      python311
+      #mise
+      #octave
+      #python311
+      #php82
+      #php82Packages.composer
     ];
-
+    
     home.file = {
        ".aria2/aria2_rpc.conf".source = dotfiles/.aria2_rpc.conf;
        ".ctags".source = dotfiles/.ctags;
@@ -30,4 +33,6 @@
       MANPAGER = "less -R --use-color -Dd+r -Du+b +Gg";
       GROFF_NO_SGR = 1; # for konsole and gnome-terminal
     };
+
+    programs.mise.enable = true;
 }

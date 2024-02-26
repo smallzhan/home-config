@@ -20,9 +20,10 @@
         nixu = "nix flake update";
         nixi = "nix profile install";
         nixr = "nix profile remove";
+        nixl = "nix profile list";
         hms = "home-manager switch";
         hmg = "home-manager";
-        hmd7 = "home-manager expire-generations -7 days";
+        hmd7 = "home-manager expire-generations '-7 days'";
         hml = "home-manager generations";
         hmr = "home-manager remove-generations";
       };
@@ -94,7 +95,7 @@
       rev = "master";
       sha256 = "LkoRWds7PHsteJCDvsBpZ80zvlLtFenLU3CPAxdEHYA=";
     } + "/.tmux.conf";
-    ".tmux.conf.local".source = dotfiles/.temux.conf.local;
+    ".tmux.conf.local".source = dotfiles/.tmux.conf.local;
     ".config/starship.toml".source = dotfiles/.starship.toml;
   };
 }

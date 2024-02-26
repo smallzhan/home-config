@@ -25,7 +25,7 @@
     lg = !git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30
 [commit]
 	template = /Users/guoqiang/.stCommitMsg
-[url "https://ghproxy.com/github.com/"]
+[url "https://mirror.ghproxy.com/github.com/"]
 	insteadof = https://github.com/
 [pull]
 	rebase = true
