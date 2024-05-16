@@ -19,7 +19,7 @@
     home-manager,
     ...
   }: let
-    system = "x86_64-darwin";
+    system = "aarch64-darwin";
     pkgs = nixpkgs.legacyPackages.${system};
     #rnix = rnix-lsp.packages.${system};
   in {

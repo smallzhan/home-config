@@ -45,6 +45,8 @@
       initExtra = ''
         [ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
         #eval "$(devbox global shellenv --init-hook)"'';
+      initExtraFirst = ''
+        [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ] && source $HOME/.nix-profile/etc/profile.d/nix.sh'';
     };
 
     fzf = {
@@ -93,7 +95,7 @@
       owner = "gpakosz";
       repo = ".tmux";
       rev = "master";
-      sha256 = "LkoRWds7PHsteJCDvsBpZ80zvlLtFenLU3CPAxdEHYA=";
+      sha256 = "Q9BMs9DRh4tqY0LLozlQqzXqPusYghA78IvENvSbx6w=";
     } + "/.tmux.conf";
     ".tmux.conf.local".source = dotfiles/.tmux.conf.local;
     ".config/starship.toml".source = dotfiles/.starship.toml;

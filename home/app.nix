@@ -10,10 +10,11 @@
       sdcv
       universal-ctags
       alejandra
-      nixfmt
-      rnix-lsp
+      nixfmt-rfc-style
+      #rnix-lsp
       sbcl
       gnuplot
+      mpv
       #mise
       #octave
       #python311
@@ -26,6 +27,8 @@
        ".ctags".source = dotfiles/.ctags;
        ".vimrc".source = dotfiles/.vimrc;
        ".sbclrc".source = dotfiles/.sbclrc;
+       ".local/bin/pycask".source = dotfiles/pycask.py;
+       ".local/bin/pycask".executable = true;
     };
 
     home.sessionVariables = {
