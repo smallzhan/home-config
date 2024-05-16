@@ -110,9 +110,9 @@ class PyCask:
             #]
             version = cask["version"]
             if self.arch != "arm64":
-                veriations = cask["veriations"]
-                url_code = veriations.get(self.code, {}).get("url", "")
-                sha256_code = veriations.get(self.code, {}).get("sha256", "")
+                variations = cask["variations"]
+                url_code = variations.get(self.code, {}).get("url", "")
+                sha256_code = variations.get(self.code, {}).get("sha256", "")
 
                 url = (url_code if len(url_code) > 0 else url)
                 sha256 = (sha256_code if len(sha256_code) > 0 else sha256)
@@ -147,8 +147,8 @@ class PyCask:
                         print(f"{cask.token}\r\t\t\t{df_pkg.version.split(',')[0]}\r\t\t\t\t---->\t{cask.version.split(',')[0]}")
                         #df_pkg.url = cask.url
                         self.df_all.loc[token, "url"] = cask.url
-                        df_pkg.sha256 = cask.sha256
-                        #self.df_all.loc[token, "sha256"] = cask.sha256
+                        #df_pkg.sha256 = cask.sha256
+                        self.df_all.loc[token, "sha256"] = cask.sha256
                         if df_pkg.installed == 0:
                             #df_pkg.version = cask.version
                             self.df_all.loc[token, "version"] = cask.version
@@ -343,6 +343,14 @@ class PyCask:
 
         elif self.args.remove:
             self.remove(self.args.remove)
+
+        elif self.args.marked:
+            token = self.args.marked
+            if token in self.df_all.index:
+                self.df_all.loc[token, "installed"] = 1
+                self.to_sql_db()
+            else:
+                print(f"Package with {token} not found")
             
 if __name__ == "__main__":
     import os
@@ -354,6 +362,7 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--install", type=str, help="install apps")
     parser.add_argument("-r", "--remove", type=str, help="remove apps")
     parser.add_argument("-u", "--update", action="store_true", help="update database")
+    parser.add_argument("-m", "--marked", type=str, help="mark a package as installed")
 
     args = parser.parse_args()
 
