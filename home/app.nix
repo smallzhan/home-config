@@ -13,6 +13,7 @@
       nixfmt-rfc-style
       #rnix-lsp
       sbcl
+      chez
       gnuplot
       mpv
       #mise

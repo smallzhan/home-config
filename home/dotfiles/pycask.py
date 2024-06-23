@@ -2,10 +2,8 @@
 import requests
 import platform
 import json
-from pprint import pprint
 from collections import namedtuple
 import tempfile
-import shutil
 import subprocess
 import argparse
 import sqlite3
@@ -175,6 +173,8 @@ class PyCask:
         url = cask.url
         dest = tempfile.gettempdir()
         f = os.path.basename(url)
+        version_new = cask["update"] if upgrade else cask["version"]
+        f = self.get_latest_fname(f, token, version_new)
         command = ["aria2c", "-c", url, "-d", dest, "-o", f]
         print(command)
         popen = subprocess.Popen(command, stdout=sys.stdout)
@@ -189,6 +189,13 @@ class PyCask:
             return False
         return True
 
+    def get_latest_fname(self, fname, token, version):
+        format = fname[-3:]
+        if format in ["zip", "pkg", "dmg", ".gz", ".xz"]:
+            return fname
+        fname = f"{token}-{version}.dmg"
+        return fname
+        
     def install(self, fname, token, version):
         print(f"start install {fname}")
         format = fname[-3:]
@@ -198,6 +205,8 @@ class PyCask:
         getattr(self, f"install_{format}")(fname)
 
         print(f"{token} installed with version {version}")
+        print(f"temp file {fname} removed")
+        os.system(f"rm -rf {fname}")
         self.df_all.loc[token, "installed"] = 1
         self.df_all.loc[token, "version"] = version
         self.to_sql_db()
@@ -222,12 +231,17 @@ class PyCask:
         for artifact in artifacts:
             apps = artifact.get("app", [])
             for app in apps:
+
+                if " " in app:
+                    app = app.replace(" ", "\\ ")
+                print(f"rm -rf ~/Applications/{app}")
                 os.system(f"rm -rf ~/Applications/{app}")
             if not upgrade:  # when upgrade, not zap apps
                 zaps = artifact.get("zap", [])
                 for zap in zaps:
                     trashes = zap.get("trash", [])
                     for trash in trashes:
+                        print(f"removing... {trash}")
                         os.system(f"rm -rf {trash}")
         if not upgrade:  # when upgrade, not update db when remove
             self.df_all.loc[token, "installed"] = 0
@@ -243,7 +257,8 @@ class PyCask:
 
     def install_zip(self, fname):
         temp_dir = tempfile.mkdtemp()
-        os.system(f"unzip '{fname}' -d '{temp_dir}'")
+        unzip_cmd = f"unzip -q '{fname}' -d '{temp_dir}'"
+        os.system(unzip_cmd)
         self.install_archive(temp_dir)
 
     def list_pkgs(self):
@@ -256,10 +271,11 @@ class PyCask:
         return subprocess.check_output(cmd, shell=True, universal_newlines=True)
 
     def copy_app(self, path):
-        os.system(f"cp -R '{path}' ~/Applications")
+        copy_cmd = f"cp -R '{path}' ~/Applications"
+        os.system(copy_cmd)
 
     def install_dmg(self, path):
-        cmd = f"hdiutil attach '{path}'|grep /Volumes"
+        cmd = f"hdiutil attach -noautoopen '{path}'|grep /Volumes"
         block = self.get_output(cmd).split("\t")
 
         app_path = block[-1].strip()
@@ -292,7 +308,8 @@ class PyCask:
                             self.copy_app(output)
                             return
                         elif fmt == "pkg":
-                            os.system(f'sudo installer -pkg "{output}" -target /')
+                            install_cmd = f'sudo installer -pkg "{output}" -target /'
+                            os.system(install_cmd)
                             return
         print("No usable files found")
 
