@@ -3,7 +3,8 @@
     home.packages = with pkgs; [
       lftp
       aria2
-      gtkwave
+      wget
+      # gtkwave
       # emacs29
       cheat
       graphviz
@@ -12,10 +13,10 @@
       alejandra
       nixfmt-rfc-style
       #rnix-lsp
-      sbcl
-      chez
-      gnuplot
-      mpv
+      #sbcl
+      #chez
+      #gnuplot
+      #mpv
       #mise
       #octave
       #python311

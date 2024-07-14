@@ -1,6 +1,16 @@
 # { config, pkgs, rnix, ... }:
-{ config, pkgs, ... }: {
-  home.packages = with pkgs; [ eza ripgrep fd bottom delta bat tmux ];
+{ config, pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    eza
+    ripgrep
+    fd
+    bottom
+    delta
+    bat
+    tmux
+    zellij
+  ];
   programs = {
     zsh = {
       enable = true;
@@ -45,8 +55,8 @@
       initExtra = ''
         [ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
         #eval "$(devbox global shellenv --init-hook)"'';
-      initExtraFirst = ''
-        [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ] && source $HOME/.nix-profile/etc/profile.d/nix.sh'';
+      # initExtraFirst = ''
+      #  [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ] && source $HOME/.nix-profile/etc/profile.d/nix.sh'';
     };
 
     fzf = {
@@ -57,20 +67,24 @@
       defaultCommand = "fd --type f --hidden --follow --exclude .git";
       #defaultOptions = ["--height 40%" "--border" ];
       fileWidgetCommand = "fd --type f --hidden --follow --exclude .git";
-      fileWidgetOptions = [
-        "--preview 'bat --color=always --style=header,grid --line-range :500 {}'"
-      ];
+      fileWidgetOptions = [ "--preview 'bat --color=always --style=header,grid --line-range :500 {}'" ];
       historyWidgetOptions = [
         "--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
       ];
     };
 
-    starship = { enable = true; };
+    starship = {
+      enable = true;
+    };
 
     bash = {
       enable = true;
       initExtra = "[ -f $HOME/.env.local ] && source $HOME/.env.local";
-      shellOptions = [ "histappend" "extglob" "checkwinsize" ];
+      shellOptions = [
+        "histappend"
+        "extglob"
+        "checkwinsize"
+      ];
       shellAliases = {
         ls = "eza --icons ";
         cat = "bat -p --wrap character";
@@ -91,12 +105,14 @@
     # # symlink to the Nix store copy.
     ".zshrc.local".source = dotfiles/.zshrc.local;
     ".env.local".source = dotfiles/.env.local;
-    ".tmux.conf".source = pkgs.fetchFromGitHub {
-      owner = "gpakosz";
-      repo = ".tmux";
-      rev = "master";
-      sha256 = "Q9BMs9DRh4tqY0LLozlQqzXqPusYghA78IvENvSbx6w=";
-    } + "/.tmux.conf";
+    ".tmux.conf".source =
+      pkgs.fetchFromGitHub {
+        owner = "gpakosz";
+        repo = ".tmux";
+        rev = "master";
+        sha256 = "+7tg3qV+TdeF5Vfgf1GazZcFaO7OVsJ/Vul8fDVDNng=";
+      }
+      + "/.tmux.conf";
     ".tmux.conf.local".source = dotfiles/.tmux.conf.local;
     ".config/starship.toml".source = dotfiles/.starship.toml;
   };
